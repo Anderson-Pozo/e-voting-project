@@ -1,0 +1,332 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Elector"""
+type Elector {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  dni: String!
+  firstname: String!
+  lastname: String!
+  email: String
+  exercisedVote: Boolean!
+  board: Board!
+  user: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""Entidad usuario"""
+type User {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  fullname: String!
+  username: String!
+  roles: [String!]!
+  isActive: Boolean!
+  email: String
+}
+
+"""Entidad MJRV"""
+type Mjrv {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  dni: String!
+  firstname: String!
+  lastname: String!
+  email: String
+  position: String!
+  board: Board!
+  user: User!
+}
+
+"""Entidad de voto"""
+type Vote {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  list: List!
+  votingTime: DateTime!
+  electoralProccess: ID!
+}
+
+"""Candidato"""
+type Candidate {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  firstname: String!
+  lastname: String!
+  photo: String
+  dignity: String!
+  list: List!
+}
+
+"""Lista de candidatos"""
+type List {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  color: String!
+  logo: String
+  slogan: String
+  electoralProcess: ElectoralProcess!
+}
+
+"""Institucion"""
+type Institution {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  image: String
+  province: String!
+  canton: String!
+  parish: String!
+}
+
+"""Proceso electoral"""
+type ElectoralProcess {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  processDate: DateTime!
+  initialHour: DateTime!
+  finalHour: DateTime!
+  name: String!
+  period: String!
+  isActive: Boolean!
+  institution: Institution!
+}
+
+"""Junta"""
+type Board {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  number: Float!
+  place: String!
+  electoralProcess: ElectoralProcess!
+}
+
+"""Total de votos por lista"""
+type VoteByList {
+  name: String!
+  votes: Float!
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type Query {
+  getAllBoards: [Board!]!
+  getBoard(id: ID!): Board!
+  getAllElectoralProcess: [ElectoralProcess!]!
+  getElectoralProcess(id: ID!): ElectoralProcess!
+  getAllInstitutions: [Institution!]!
+  getInstitution(id: ID!): Institution!
+  getAllCandidates(listId: ID!): [Candidate!]!
+  getAllLists: [List!]!
+  getAllElectors(boardId: ID!): [Elector!]!
+  getAllUsers(processId: ID!): [User!]!
+  getAllMjrvs: [Mjrv!]!
+  getVotesByList: [VoteByList!]!
+  revalidateToken: AuthResponse!
+}
+
+type Mutation {
+  createBoard(createBoard: CreateBoardInput!): Board!
+  createMasiveBoards(createBoards: [CreateBulkBoardsInput!]!, idEProcess: ID!): [Board!]!
+  updateBoard(updateBoard: UpdateBoardInput!): Board!
+  deleteBoard(id: ID!): Board!
+  createElectoralProcess(eproccess: CreateEProcessInput!): ElectoralProcess!
+  updateElectoralProcess(updateEprocess: UpdateEProcessInput!): ElectoralProcess!
+  deleteElectoralProcess(id: ID!): ElectoralProcess!
+  switchElectoralProcessState(id: ID!): Boolean!
+  createInstitution(institution: CreateInstitutionInput!): Institution!
+  updateInstitution(institution: UpdateInstitutionInput!): Institution!
+  deleteInstitution(id: ID!): Institution!
+  createCandidate(candidate: CreateCandidateInput!): Candidate!
+  updateCandidate(updateCandidate: UpdateCandidateInput!): Candidate!
+  createList(list: CreateListInput!): List!
+  updateList(updateList: UpdateListInput!): List!
+  createElector(elector: CreateElectorInput!): Elector!
+  createMasiveElector(createElector: [CreateBulkElectorsInput!]!, boardId: ID!): [Elector!]!
+  updateElector(elector: UpdateElectorInput!): Elector!
+  createMjrv(createMjrv: CreateMjrvInput!): Mjrv!
+  updateMjrv(updateMjrv: UpdateMjrvInput!): Mjrv!
+  saveVote(vote: CreateVoteInput!): Vote!
+  login(loginInput: LoginInput!): AuthResponse!
+}
+
+"""Input creacion Junta"""
+input CreateBoardInput {
+  number: Int!
+  place: String!
+  electoralProcess: ID!
+}
+
+"""Input creacion masiva Junta"""
+input CreateBulkBoardsInput {
+  number: Int!
+  place: String!
+}
+
+"""Input actualizacion Junta"""
+input UpdateBoardInput {
+  number: Int
+  place: String
+  electoralProcess: ID
+  id: ID!
+}
+
+"""Input creacion Proceso Electoral"""
+input CreateEProcessInput {
+  processDate: DateTime!
+  initialHour: DateTime!
+  finalHour: DateTime!
+  name: String!
+  period: String!
+  isActive: Boolean
+  institution: ID!
+}
+
+"""Input Proceso Electoral"""
+input UpdateEProcessInput {
+  processDate: DateTime
+  initialHour: DateTime
+  finalHour: DateTime
+  name: String
+  period: String
+  isActive: Boolean
+  institution: ID
+  id: ID!
+}
+
+"""Input Institucion"""
+input CreateInstitutionInput {
+  name: String!
+  image: String
+  province: String!
+  canton: String!
+  parish: String!
+}
+
+"""Input Updated Institucion"""
+input UpdateInstitutionInput {
+  name: String
+  image: String
+  province: String
+  canton: String
+  parish: String
+  id: ID!
+}
+
+"""Input de creacion de candidato"""
+input CreateCandidateInput {
+  firstname: String!
+  lastname: String!
+  photo: String
+  dignity: String!
+  list: ID!
+}
+
+"""Input de actualizacion de candidato"""
+input UpdateCandidateInput {
+  firstname: String
+  lastname: String
+  photo: String
+  dignity: String
+  list: ID
+  id: ID!
+}
+
+"""Input de creacion de una lista"""
+input CreateListInput {
+  name: String!
+  color: String!
+  logo: String
+  slogan: String
+  electoralProcess: ID!
+}
+
+"""Input actualizacion de lista"""
+input UpdateListInput {
+  name: String
+  color: String
+  logo: String
+  slogan: String
+  electoralProcess: ID
+  id: ID!
+}
+
+"""Input de creacion de elector"""
+input CreateElectorInput {
+  dni: String!
+  firstname: String!
+  lastname: String!
+  email: String
+  board: ID!
+}
+
+"""Input creacion masiva electores"""
+input CreateBulkElectorsInput {
+  dni: String!
+  firstname: String!
+  lastname: String!
+  email: String
+}
+
+"""Input de actualizacion de elector"""
+input UpdateElectorInput {
+  dni: String
+  firstname: String
+  lastname: String
+  email: String
+  board: ID
+  id: String!
+  exercisedVote: Boolean
+}
+
+"""Input creacion Mjrv"""
+input CreateMjrvInput {
+  dni: String!
+  firstname: String!
+  lastname: String!
+  email: String
+  position: String!
+  board: ID!
+}
+
+"""Input de actualizacion mjrv"""
+input UpdateMjrvInput {
+  dni: String
+  firstname: String
+  lastname: String
+  email: String
+  position: String
+  board: ID
+  id: String!
+}
+
+"""Input de creacion de voto"""
+input CreateVoteInput {
+  list: ID!
+  electoralProccess: ID!
+}
+
+"""Input login"""
+input LoginInput {
+  username: String!
+  password: String!
+}

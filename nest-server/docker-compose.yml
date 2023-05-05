@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  database:
+    image: postgres:14.3
+    container_name: postgres_voting
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    volumes:
+      - "voting_data:/var/lib/postgresql/data"
+    restart: always 
+
+volumes:
+  voting_data: {}
