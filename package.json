@@ -1,0 +1,18 @@
+{
+  "name": "e-evoting",
+  "version": "1.0.0",
+  "description": "E-voting example project",
+  "main": "index.js",
+  "author": "Anderson Pozo",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "nest-server",
+    "next-app"
+  ],
+  "scripts": {
+    "server": "yarn --cwd nest-server start:dev",
+    "next": "yarn --cwd next-app dev",
+    "dev": "npm-run-all --parallel server next"
+  }
+}
