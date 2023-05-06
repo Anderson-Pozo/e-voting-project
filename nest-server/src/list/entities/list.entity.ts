@@ -26,7 +26,7 @@ export class List extends Base {
     slogan: string
 
     @Field(() => ElectoralProcess)
-    @ManyToOne(() => ElectoralProcess, (elProc) => elProc.board)
+    @ManyToOne(() => ElectoralProcess, (elProc) => elProc.list)
     electoralProcess: ElectoralProcess
 
     @OneToMany(() => Candidate, (candidate) => candidate.list)
